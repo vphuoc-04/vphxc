@@ -20,11 +20,13 @@ import {
   DeviceInfo,
 } from '../../../decorators/client-info.decorator';
 import type { DeviceInfo as IDeviceInfo } from '../../../helpers/user-agent.helper';
+import { Public } from '../../../decorators/public.decorator';
 
 /**
  * Controller kiểm thử chuyên dụng: kiểm tra toàn diện các định dạng của ApiResponse,
  * thử nghiệm kích hoạt lỗi để ghi log tự động vào MySQL vphxc, và đối soát dữ liệu 2 bảng nhật ký.
  */
+@Public()
 @Controller('test')
 export class TestsController extends BaseController {
   constructor(

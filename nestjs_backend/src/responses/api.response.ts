@@ -1,6 +1,5 @@
 /**
  * Lớp chuẩn hóa cấu trúc phản hồi JSON (Response Envelope) cho toàn bộ API trong hệ thống.
- * Đồng nhất 100% với định dạng ApiResponse từ Spring Boot backend.
  */
 export class ApiResponse<T = any> {
   // Trạng thái thành công hay thất bại của request (mặc định là true)

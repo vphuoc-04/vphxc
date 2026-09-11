@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
+  // Kích hoạt Cookie Parser cho HttpOnly Cookie
+  app.use(cookieParser());
 
   // Kích hoạt CORS (Lấy từ CORS_ALLOWED_ORIGINS trong .env)
   app.enableCors({

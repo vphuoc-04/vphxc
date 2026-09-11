@@ -1,13 +1,16 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR, APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
+import { APP_INTERCEPTOR, APP_FILTER, APP_PIPE, APP_GUARD } from '@nestjs/core';
 import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 import { AuditLogsModule } from './modules/audit-logs/audit-logs.module';
 import { ErrorLogsModule } from './modules/error-logs/error-logs.module';
 import { TestsModule } from './modules/tests/tests.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { TransformResponseInterceptor } from './interceptors/transform-response.interceptor';
 import { AuditLogInterceptor } from './interceptors/audit-log.interceptor';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,10 +22,12 @@ import { AppService } from './app.service';
       load: [configuration],
       envFilePath: ['.env', '.env.example'],
     }),
+    ScheduleModule.forRoot(),
     DatabaseModule,
     AuditLogsModule,
     ErrorLogsModule,
     TestsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -46,6 +51,10 @@ import { AppService } from './app.service';
     {
       provide: APP_INTERCEPTOR,
       useClass: AuditLogInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })

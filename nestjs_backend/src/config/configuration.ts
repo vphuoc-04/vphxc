@@ -25,4 +25,21 @@ export default () => ({
       .split(',')
       .map((o) => o.trim()),
   },
+  jwt: {
+    secretKey:
+      process.env.JWT_SECRET_KEY ||
+      'default-secret-key-change-it-in-production',
+    accessTokenExpirationMinutes: parseInt(
+      process.env.JWT_ACCESS_TOKEN_EXPIRATION_MINUTES || '15',
+      10,
+    ),
+    refreshTokenExpirationDays: parseInt(
+      process.env.JWT_REFRESH_TOKEN_EXPIRATION_DAYS || '30',
+      10,
+    ),
+    cookieName: process.env.JWT_COOKIE_NAME || 'refreshToken',
+    cookieSecure: process.env.JWT_COOKIE_SECURE === 'true',
+    cookieSameSite:
+      (process.env.JWT_COOKIE_SAME_SITE as 'lax' | 'strict' | 'none') || 'lax',
+  },
 });
